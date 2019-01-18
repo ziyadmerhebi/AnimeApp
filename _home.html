@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>News Feed</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+    </style>
+
+  </head>
+  <body>
+
+      <div id="screenContent">
+        <h1 class="mdc-typography--headline3">Anime News Feed</h1>
+        <ul class="mdc-list demo-list mdc-list--two-line">
+          <li class="template mdc-list-item mdc-ripple-upgraded" tabindex="-1"><span class="mdc-list-item__text"><span class="mdc-list-item__primary-text"></span><!--<span id="author" class="mdc-list-item__secondary-text"></span>--><span id="link" class="mdc-list-item__secondary-text"></span></li>
+          
+        </ul>
+      </div>
+
+
+  <script>
+
+    var endpoint = 'https://newsapi.org/v2/everything?' +
+              'q=Anime&' +
+              'from=2018-12-03&' +
+              'sortBy=popularity&' +
+              'apiKey=ca9c2ccf2462484c9b1be4af3f56c96c';
+
+
+          $.get(endpoint, function(response) {
+            //console.log(response);
+            $.each(response, function(i,v) {
+              //console.log(response.articles[2]);
+
+              //console.log(response.articles[2].title);
+              var index = response.articles.length;
+              console.log(index);
+
+
+              //appends article title, author, and url from API
+
+              var n = 0;
+              while (n <= index) {
+
+              
+                var clone = $("#screenContent li.template").clone();
+                clone.find(".mdc-list-item__primary-text").text(response.articles[n].title);
+                //clone.find("#author").text("by " + response.articles[n].author);
+
+                var str = response.articles[n].url;
+                clone.find("#link").text("URL: " + str);
+
+                clone.removeClass("template");
+                  //clone.attr("id", response.articles[n].id);
+                $("#screenContent ul").append(clone);
+                n++;
+              };
+                
+
+
+
+
+            });
+
+          });
+
+      </script>
+
+
+
+<footer>
+  "Powered by News API"
+  </footer>
+  </body>
+</html>

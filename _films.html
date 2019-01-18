@@ -1,0 +1,273 @@
+  <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Studio Ghibli Films</title>
+    
+
+    <style>
+        html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <!-- Include Dexie -->
+      <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
+      <script>
+          //
+          // Define your database
+          //
+          var db = new Dexie("favorites_database");
+          db.version(1).stores({
+              favorites: 'name,shoeSize'
+          });
+
+          //
+          // Put some data into it
+          //
+          db.favorites.put({title: "Spirited Away", director: "Hayao Miyazaki"}).then (function(){
+              //
+              // Then when data is stored, read from it
+              //
+              //return db.friends.get('Nicolas');
+          }).then(function (title) {
+              //
+              // Display the result
+              //
+              //alert ("Nicolas has shoe size " + friend.shoeSize);
+          }).catch(function(error) {
+             //
+             // Finally don't forget to catch any error
+             // that could have happened anywhere in the
+             // code blocks above.
+             //
+             //alert ("Ooops: " + error);
+          });
+      </script>
+
+
+  </head>
+  <body>
+
+    <h1> Film Search </h1>
+
+    <div id="screenContent">
+<!--<h3 class="mdc-typography--headline3">Resources</h3>-->
+
+<script>
+  logo = document.createElement('img');
+  logo.src = 'logo.png';
+  </script>
+
+<form>
+      <select id="results" name="results">
+          <option>Films</option>
+          <option>People</option>
+          <option>Locations</option>
+      </select>  
+
+  </form>
+
+<button type="button">Search</button>
+
+
+<div id="root"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  
+
+//function called by clicking search button
+function ghibli() {
+
+  
+
+  app = document.getElementById('root');
+  
+
+  container = document.createElement('div');
+  container.setAttribute('class', 'container');
+
+  //clears previous content everytime button is clicked
+  document.getElementById('root').innerHTML = "";
+
+  app.appendChild(logo);
+  app.appendChild(container);
+
+  var endpoint = "https://ghibliapi.herokuapp.com/";
+
+
+  //var url = endpoint + "?submit=" + $("#submit").val();
+
+  endpoint += $("#results").val();
+
+
+  var request = new XMLHttpRequest();
+  request.open('GET', endpoint, true);
+  request.onload = function() {
+
+    // Begin accessing JSON data here
+    var data = JSON.parse(this.response);
+
+    if ($("#results").val() == "Films") {
+
+      if (request.status >= 200 && request.status < 400) {
+      data.forEach(movie => {
+        const card = document.createElement('div');
+        card.setAttribute('class', 'card');
+
+        const h1 = document.createElement('h1');
+        h1.textContent = movie.title;
+
+        const p = document.createElement('p');
+        p.textContent = 'Director: ' + movie.director;
+
+        const p2 = document.createElement('p2');
+        movie.description = movie.description.substring(0, 150);
+        p2.textContent = `${movie.description}...`;
+
+        const btn = document.createElement('button');
+        btn.type="button";
+        btn.id="sound";
+        btn.textContent = movie.title;
+        //btn.setAttribute('movie.title');
+
+
+
+        container.appendChild(card);
+        card.appendChild(h1);
+        card.appendChild(p);
+        card.appendChild(p2);
+        card.append(btn);
+
+        //Utilization of hardware feature
+        //Plays audio of movie
+        $(btn).on("click", function(e) {
+          var words = $(this).text();
+          var utter = new SpeechSynthesisUtterance(words);
+          window.speechSynthesis.speak(utter);
+        })
+
+      });
+    } else {
+      const errorMessage = document.createElement('marquee');
+      errorMessage.textContent = `404 Error`;
+      app.appendChild(errorMessage);
+    }
+
+    } else if ($("#results").val() == "People") {
+      if (request.status >= 200 && request.status < 400) {
+      data.forEach(movie => {
+        const card = document.createElement('div');
+        card.setAttribute('class', 'card');
+
+        const h1 = document.createElement('h1');
+        h1.textContent = movie.name;
+
+        const p = document.createElement('p');
+        p.textContent = 'Gender: ' + movie.gender;
+
+        const p2 = document.createElement('p2');
+        //movie.description = movie.description.substring(0, 300);
+        p2.textContent = 'Age: ' + movie.age;
+
+        const btn = document.createElement('button');
+        btn.type="button";
+        btn.id="sound";
+        btn.textContent = movie.name;
+
+        container.appendChild(card);
+        card.appendChild(h1);
+        card.appendChild(p);
+        card.appendChild(p2);
+        card.append(btn);
+
+
+        //Utilization of hardware feature
+        //Plays audio of movie
+        $(btn).on("click", function(e) {
+          var words = $(this).text();
+          var utter = new SpeechSynthesisUtterance(words);
+          window.speechSynthesis.speak(utter);
+        })
+
+
+      });
+    } else {
+      const errorMessage = document.createElement('marquee');
+      errorMessage.textContent = `404 Error`;
+      app.appendChild(errorMessage);
+    }
+
+
+    } else if ($("#results").val() == "Locations") {
+      if (request.status >= 200 && request.status < 400) {
+      data.forEach(movie => {
+        const card = document.createElement('div');
+        card.setAttribute('class', 'card');
+
+        const h1 = document.createElement('h1');
+        h1.textContent = movie.name;
+
+        const p = document.createElement('p');
+        p.textContent = 'Climate: ' + movie.climate;
+
+        const p2 = document.createElement('p2');
+        //movie.description = movie.description.substring(0, 300);
+        p2.textContent = 'Terrain: ' + movie.terrain;
+
+        const btn = document.createElement('button');
+        btn.type="button";
+        btn.id="sound";
+        btn.textContent = movie.name;
+
+        container.appendChild(card);
+        card.appendChild(h1);
+        card.appendChild(p);
+        card.appendChild(p2);
+        card.append(btn);
+
+
+        //Utilization of hardware feature
+        //Plays audio of movie
+        $(btn).on("click", function(e) {
+          var words = $(this).text();
+          var utter = new SpeechSynthesisUtterance(words);
+          window.speechSynthesis.speak(utter);
+        })
+
+      });
+
+  } else {
+      const errorMessage = document.createElement('marquee');
+      errorMessage.textContent = `404 Error`;
+      app.appendChild(errorMessage);
+    }
+  }
+
+}
+request.send();
+
+}
+
+  </script>
+
+    <script>
+  
+      $("button").on("click", ghibli) 
+
+      </script>
+
+
+  </body>
+</html>
+  
+  
+
+
+

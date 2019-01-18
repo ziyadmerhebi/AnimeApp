@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Info</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+       /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 75%;  /* The width is the width of the web page */
+        margin: auto;
+       }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>About Studio Ghibli</h1>
+
+    <p style="text-indent: 50px;">Studio Ghibli, Inc. is a Japanese animation film studio based in Koganei, Tokyo, Japan. The studio is best known for its anime feature films, and has also produced several short films, television commercials, and one television film. Some of Studio Ghibli's most popular films inlude <i>Spirited Away, Howl's Moving Castle</i>, and <i>Princess Mononoke</i>. Six of Studio Ghibli's films are among the 15 highest-grossing anime films made in Japan, with Spirited Away (2001) being the second highest, grossing over US$290 million worldwide. Many of their works have won the Animage Anime Grand Prix award, and four have won the Japan Academy Prize for Animation of the Year. Five of Studio Ghibli's films have received Academy Award nominations. Spirited Away won the Golden Bear in 2002 and the Academy Award for Best Animated Feature Film in 2003</p>
+
+    <p style="text-indent: 50px;">This app serves to provide search options for Studio Ghibli films, characters, and settings, as well as an anime feed to stay informed on the latest news.</p>
+
+    <div id="screenContent">
+
+    <!--<script>
+       app = document.getElementById('screenContent');
+  
+
+      container = document.createElement('div');
+      container.setAttribute('class', 'container');
+
+      //app.appendChild(logo);
+      app.appendChild(container);
+
+      const card = document.createElement('div');
+      card.setAttribute('class', 'card');
+
+      //const h1 = document.createElement('h1');
+      //h1.textContent = movie.title;
+
+      //const p = document.createElement('p');
+      //p.textContent = 'Director: ' + movie.director;
+
+      const p2 = document.createElement('p2');
+      p2.textContent = 'Studio Ghibli, Inc. is a Japanese animation film studio based in Koganei, Tokyo, Japan. The studio is best known for its anime feature films, and has also produced several short films, television commercials, and one television film.';
+
+      container.appendChild(card);
+        //card.appendChild(h1);
+        //card.appendChild(p);
+      card.appendChild(p2);
+        //card.append(btn);
+
+      </script>-->
+
+    <!--The div element for the map -->
+    <div id="map"></div>
+    <script>
+// Initialize and add the map
+function initMap() {
+  // The location of ghibli
+  var ghibliLocation = {lat: 35.6995, lng: 139.5030};
+  // The map, centered at ghibli
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 4, center: ghibliLocation});
+  // The marker, positioned at ghibli
+  var marker = new google.maps.Marker({position: ghibliLocation, label:"G", map: map});
+}
+    </script>
+
+
+    <p style="margin:auto;">Studio Ghibli Headquarters in Koganei, Tokyo, Japan</p>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxmgmbhVjkLCKnNL2eOkGccHzSDbUDxMI&callback=initMap">
+    </script>
+
+  </body>
+</html>
